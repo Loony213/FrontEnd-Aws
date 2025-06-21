@@ -1,0 +1,27 @@
+name: Deploy Frontend to EC2
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup SSH key
+        run: |
+          echo "$EC2_SSH_KEY" > key.pem
+          chmod 400 key.pem
+        env:
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+
+      - name: Connect and run Docker on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@52.87.246.18 << 'EOF'
+            docker pull kamartinez/my-react-app
+            docker stop frontend || true
+            docker rm frontend || true
+            docker run -d -p 80:80 --name frontend kamartinez/my-react-app
+          EOF
