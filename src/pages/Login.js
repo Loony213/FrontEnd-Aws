@@ -15,7 +15,7 @@ function Login() {
       });
 
       localStorage.setItem('token', res.data.token); // ✅ guarda token
-      alert('Login exitoso');
+      alert('Login exitosop');
       navigate('/dashboard'); // ✅ redirige
 
     } catch (err) {
