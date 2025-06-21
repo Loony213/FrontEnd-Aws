@@ -16,7 +16,7 @@ function Register() {
       alert(res.data.message);
     } catch (err) {
       if (err.response && err.response.status === 409) {
-        alert('Este correo ya está registrado');
+        alert('Este correo ya está registradoo');
       } else {
         alert('Error al registrar');
       }
