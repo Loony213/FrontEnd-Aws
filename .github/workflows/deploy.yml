@@ -19,7 +19,7 @@ jobs:
 
       - name: Connect and run Docker on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@54.144.213.106 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@54.159.158.26 << 'EOF'
             docker pull kamartinez/my-react-app
             docker stop frontend || true
             docker rm frontend || true
