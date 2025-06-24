@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import './Login.css'; // Importamos el archivo CSS tradicional
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -9,27 +10,49 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://localhost:8000/api/auth/login', {
+      const res = await axios.post('http://3.95.71.142:5000/login', {
         email,
         password
       });
 
-      localStorage.setItem('token', res.data.token); // ✅ guarda token
+      localStorage.setItem('token', res.data.token);
       alert('Login exitoso');
-      navigate('/dashboard'); // ✅ redirige
-
+      navigate('/dashboard');
     } catch (err) {
       alert('Login fallido');
     }
   };
 
   return (
-    <div>
-      <h2>Iniciar sesión</h2>
-      <input type="text" placeholder="Correo" onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Contraseña" onChange={(e) => setPassword(e.target.value)} />
-      <button onClick={handleLogin}>Login</button>
-      <p>¿No tienes una cuenta? <Link to="/register">Regístrate aquí</Link></p>
+    <div className="login-container">
+      <div className="login-box">
+        <h2 className="login-title">Iniciar sesión </h2>
+
+        <input
+          type="text"
+          placeholder="Correo"
+          onChange={(e) => setEmail(e.target.value)}
+          className="login-input"
+        />
+
+        <input
+          type="password"
+          placeholder="Contraseña"
+          onChange={(e) => setPassword(e.target.value)}
+          className="login-input"
+        />
+
+        <button onClick={handleLogin} className="login-button">
+          Login
+        </button>
+
+        <p className="login-footer">
+          ¿No tienes una cuenta?{' '}
+          <Link to="/register" className="login-link">
+            Regístrate aquí
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
