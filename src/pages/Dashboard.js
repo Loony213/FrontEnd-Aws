@@ -8,9 +8,9 @@ function Dashboard() {
   const token = localStorage.getItem('token');
   const [email, setEmail] = useState('');
   const [statusPhrase, setStatusPhrase] = useState('Disponible');
-
   const [friendEmail, setFriendEmail] = useState('');
   const [friendsList, setFriendsList] = useState([]);
+  const [profilePic, setProfilePic] = useState(null);
 
   useEffect(() => {
     if (token) {
@@ -19,13 +19,16 @@ function Dashboard() {
         const userEmail = decoded.email;
         setEmail(userEmail);
 
-        // Cargar frase de estado desde localStorage
         const storedPhrase = localStorage.getItem(`statusPhrase-${userEmail}`);
         if (storedPhrase) {
           setStatusPhrase(storedPhrase);
         }
 
-        // Obtener amigos
+        const storedPic = localStorage.getItem(`profilePic-${userEmail}`);
+        if (storedPic) {
+          setProfilePic(storedPic);
+        }
+
         fetch(`http://54.236.126.209:8083/friends/${userEmail}`)
           .then((res) => res.json())
           .then((data) => setFriendsList(data))
@@ -66,6 +69,27 @@ function Dashboard() {
     }
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const fileName = `profile_pics/${Date.now()}-${file.name}`;
+    const s3URL = `https://chatapp-profile-photos-kamartinez.s3.amazonaws.com/${fileName}`;
+
+    try {
+      await fetch(s3URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type },
+        body: file
+      });
+      setProfilePic(s3URL);
+      localStorage.setItem(`profilePic-${email}`, s3URL);
+    } catch (error) {
+      console.error('Error al subir imagen:', error);
+      alert('Error al subir la imagen');
+    }
+  };
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
@@ -74,7 +98,15 @@ function Dashboard() {
       </div>
 
       <div className="dashboard-profile">
-        <div className="profile-picture-placeholder">Foto</div>
+        <div className="profile-picture-placeholder">
+          {profilePic ? (
+            <img src={profilePic} alt="Perfil" width={100} height={100} style={{ borderRadius: '50%' }} />
+          ) : (
+            "Foto"
+          )}
+        </div>
+        <input type="file" accept="image/*" onChange={handleImageUpload} />
+
         <p className="dashboard-email">{email}</p>
         <p className="status-phrase">{statusPhrase}</p>
       </div>
