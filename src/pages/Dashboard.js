@@ -29,7 +29,11 @@ function Dashboard() {
           setProfilePic(storedPic);
         }
 
+<<<<<<< HEAD
+        fetch(`http://44.193.181.80:8083/friends/${userEmail}`)
+=======
         fetch(`http://54.236.126.209:8083/friends/${userEmail}`)
+>>>>>>> 3f870105e86eaa931e562b1dc61486774a87fe78
           .then((res) => res.json())
           .then((data) => setFriendsList(data))
           .catch((err) => console.error('Error al cargar amigos:', err));
@@ -51,7 +55,11 @@ function Dashboard() {
   const handleAddFriend = async () => {
     if (!friendEmail.trim()) return;
     try {
+<<<<<<< HEAD
+      const res = await fetch('http://44.193.181.80:8083/add-friend', {
+=======
       const res = await fetch('http://54.236.126.209:8083/add-friend', {
+>>>>>>> 3f870105e86eaa931e562b1dc61486774a87fe78
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_email: email, friend_email: friendEmail })

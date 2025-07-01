@@ -24,7 +24,11 @@ function Settings() {
 
   const handleEmailChange = async () => {
     try {
+<<<<<<< HEAD
+      const res = await fetch('http://54.145.79.10:8081/cambiar-email', {
+=======
       const res = await fetch('http://54.157.52.212:8081/cambiar-email', {
+>>>>>>> 3f870105e86eaa931e562b1dc61486774a87fe78
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ oldEmail: email, newEmail })
@@ -44,7 +48,11 @@ function Settings() {
 
   const handlePasswordChange = async () => {
     try {
+<<<<<<< HEAD
+      const res = await fetch('http://54.145.79.10:8081/cambiar-password', {
+=======
       const res = await fetch('http://54.157.52.212:8081/cambiar-password', {
+>>>>>>> 3f870105e86eaa931e562b1dc61486774a87fe78
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, oldPassword, newPassword })

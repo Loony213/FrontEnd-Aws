@@ -10,7 +10,11 @@ function Login() {
 
   const handleLogin = async () => {
     try {
+<<<<<<< HEAD
+      const res = await axios.post('http://52.1.37.215:5000/login', {
+=======
       const res = await axios.post('http://3.95.71.142:5000/login', {
+>>>>>>> 3f870105e86eaa931e562b1dc61486774a87fe78
         email,
         password
       });
