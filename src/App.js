@@ -4,7 +4,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Chat from './pages/Chat';
-import Settings from './pages/Settings'; // ✅ importa el nuevo componente
+import Settings from './pages/Settings'; 
+import RootDashboard from './pages/RootDashboard';
 
 function App() {
   return (
@@ -14,7 +15,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/chat" element={<Chat />} />
-        <Route path="/settings" element={<Settings />} /> {/* ✅ nueva ruta */}
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/root-dashboard" element={<RootDashboard />} />
       </Routes>
     </Router>
   );

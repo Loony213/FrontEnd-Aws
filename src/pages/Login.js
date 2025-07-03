@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import './Login.css'; // Importamos el archivo CSS tradicional
+import './Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -17,7 +17,18 @@ function Login() {
 
       localStorage.setItem('token', res.data.token);
       alert('Login exitoso');
-      navigate('/dashboard');
+
+      // Aquí verificamos el nombre de usuario y redirigimos
+      const userName = res.data.userName;  // Asegúrate de que tu backend devuelva el nombre del usuario o el rol
+
+      if (userName === 'Kevin') {
+        // Si el nombre de usuario es Kevin, lo redirigimos a la página de root
+        navigate('/root-dashboard');
+      } else {
+        // Si no es Kevin, lo redirigimos al dashboard normal
+        navigate('/dashboard');
+      }
+      
     } catch (err) {
       alert('Login fallido');
     }
@@ -26,7 +37,7 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2 className="login-title">Iniciar sesión </h2>
+        <h2 className="login-title">Iniciar sesión</h2>
 
         <input
           type="text"
