@@ -3,25 +3,41 @@ name: Deploy Frontend to EC2
 on:
   push:
     branches:
-      - test
+      - test  
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup SSH key
-        run: |
-          echo "$EC2_SSH_KEY" > key.pem
-          chmod 400 key.pem
-        env:
-          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+    
+    - name: Set up SSH key for EC2
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-      - name: Connect and run Docker on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@44.206.184.200 << 'EOF'
-            docker pull kamartinez/my-react-app
-            docker stop frontend || true
-            docker rm frontend || true
-            docker run -d -p 80:80 --name frontend kamartinez/my-react-app
-          EOF
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build Docker images for frontend
+      run: |
+        docker build -t kamartinez/my-react-app .
+
+    - name: Push images to Docker Hub
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker push kamartinez/my-react-app
+
+    - name: Deploy services to EC2
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: 44.206.184.200
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          docker stop my-react-app || true
+          docker rm my-react-app || true
+
+          docker pull kamartinez/my-react-app
+
+          docker run -d --name my-react-app -p 80:80 kamartinez/my-react-app
