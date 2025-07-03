@@ -11,6 +11,7 @@ function Dashboard() {
   const [friendEmail, setFriendEmail] = useState('');
   const [friendsList, setFriendsList] = useState([]);
   const [profilePic, setProfilePic] = useState(null);
+  const [description, setDescription] = useState(''); // Nuevo estado para la descripción
 
   useEffect(() => {
     if (token) {
@@ -19,24 +20,32 @@ function Dashboard() {
         const userEmail = decoded.email;
         setEmail(userEmail);
 
+        // Cargar la frase de estado del usuario
         const storedPhrase = localStorage.getItem(`statusPhrase-${userEmail}`);
         if (storedPhrase) {
           setStatusPhrase(storedPhrase);
         }
 
+        // Cargar la foto de perfil del usuario
         const storedPic = localStorage.getItem(`profilePic-${userEmail}`);
         if (storedPic) {
           setProfilePic(storedPic);
         }
 
-<<<<<<< HEAD
-        fetch(`http://44.193.181.80:8083/friends/${userEmail}`)
-=======
-        fetch(`http://54.236.126.209:8083/friends/${userEmail}`)
->>>>>>> 3f870105e86eaa931e562b1dc61486774a87fe78
+        // Obtener la lista de amigos
+        fetch(`http://44.193.181.80:8001/friends/${userEmail}`)
           .then((res) => res.json())
           .then((data) => setFriendsList(data))
           .catch((err) => console.error('Error al cargar amigos:', err));
+
+        // Obtener la descripción del usuario
+        fetch(`http://54.145.79.10:4565/get-description?email=${userEmail}`)
+          .then((res) => res.json())
+          .then((data) => {
+            setDescription(data.description || 'Sin descripción');
+          })
+          .catch((err) => console.error('Error al cargar descripción:', err));
+
       } catch (err) {
         console.error('Token inválido');
       }
@@ -55,11 +64,7 @@ function Dashboard() {
   const handleAddFriend = async () => {
     if (!friendEmail.trim()) return;
     try {
-<<<<<<< HEAD
-      const res = await fetch('http://44.193.181.80:8083/add-friend', {
-=======
-      const res = await fetch('http://54.236.126.209:8083/add-friend', {
->>>>>>> 3f870105e86eaa931e562b1dc61486774a87fe78
+      const res = await fetch('http://44.193.181.80:8000/add-friend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_email: email, friend_email: friendEmail })
@@ -117,6 +122,9 @@ function Dashboard() {
 
         <p className="dashboard-email">{email}</p>
         <p className="status-phrase">{statusPhrase}</p>
+
+        {/* Mostrar la descripción del usuario */}
+        <p className="user-description">{description}</p>
       </div>
 
       <div className="friends-section">

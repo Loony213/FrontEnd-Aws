@@ -40,3 +40,17 @@ input {
   border: 1px solid #ccc;
   border-radius: 6px;
 }
+
+.delete-account-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.delete-account-button:hover {
+  background-color: darkred;
+}

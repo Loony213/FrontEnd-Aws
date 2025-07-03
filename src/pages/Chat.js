@@ -21,7 +21,7 @@ function Chat() {
         const userEmail = decoded.email;
         setEmail(userEmail);
 
-        fetch(`http://44.193.181.80:8083/friends/${userEmail}`)
+        fetch(`http://44.193.181.80:8001/friends/${userEmail}`)
           .then(res => res.json())
           .then(data => setFriends(data))
           .catch(err => console.error('Error al cargar amigos:', err));
@@ -73,14 +73,50 @@ function Chat() {
     };
   }, [email, activeChat]);
 
-  // Send message to WebSocket server
+  // Recuperar mensajes históricos
+  const loadMessages = (friend) => {
+    const chat_id = email < friend ? `${email}_${friend}` : `${friend}_${email}`;
+    
+    fetch(`http://34.231.95.89:8000/messages/${chat_id}`)
+      .then(res => res.json())
+      .then(data => {
+        // Verificar que la respuesta sea un array antes de hacer .map()
+        if (Array.isArray(data)) {
+          setConversations(prev => {
+            const updated = { ...prev };
+            updated[friend] = data.map(msg => ({
+              sender: msg.sender_id === email ? `Tú → ${friend}` : `${friend} → Tú`,
+              message: msg.message,
+              time: new Date(msg.timestamp).toLocaleTimeString()
+            }));
+            return updated;
+          });
+        } else {
+          console.error("No se recibieron mensajes válidos: ", data);
+        }
+      })
+      .catch(err => console.error('Error al cargar mensajes previos:', err));
+  };
+
+  // Handle chat selection
+  const handleSelectChat = (friend) => {
+    setActiveChat(friend);
+    loadMessages(friend);
+    setUnreadMessages(prev => {
+      const updated = new Set(prev);
+      updated.delete(friend);
+      return updated;
+    });
+  };
+
   const sendMessage = () => {
     if (!message.trim() || !activeChat) return;
 
     const payload = {
-      from: email,  // Campo 'from_email' para el remitente
-      to: activeChat,     // El destinatario seleccionado
-      message: message
+      from: email,
+      to: activeChat,
+      message: message,
+      timestamp: new Date().toISOString()
     };
 
     socketRef.current.send(JSON.stringify(payload));
@@ -96,16 +132,6 @@ function Chat() {
     });
 
     setMessage(''); // Limpiar el campo de mensaje
-  };
-
-  // Handle chat selection
-  const handleSelectChat = (friend) => {
-    setActiveChat(friend);
-    setUnreadMessages(prev => {
-      const updated = new Set(prev);
-      updated.delete(friend);
-      return updated;
-    });
   };
 
   return (
