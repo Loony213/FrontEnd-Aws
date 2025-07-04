@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';  // Corregido import para jwt-decode
 import './Login.css';
 
 function Login() {
@@ -10,25 +11,27 @@ function Login() {
 
   const handleLogin = async () => {
     try {
+      // Hacer login y obtener el token
       const res = await axios.post('http://52.1.37.215:8001/login', {
         email,
         password
       });
 
-      // Guardamos el token en el almacenamiento local
+      // Guardar el token en el almacenamiento local
       const token = res.data.token;
       localStorage.setItem('token', token);
 
-      // Obtenemos el user_id de la respuesta
-      const userId = res.data.user_id;  // El user_id es devuelto por el backend
+      // Decodificar el token JWT para obtener el user_id
+      const decoded = jwtDecode(token);
+      const userId = decoded.user_id;  // Obtenemos el user_id del token
 
       alert('Login exitoso');
 
       // Redirigimos según el user_id
-      if (userId === 1) {  // Asumiendo que el user_id de Kevin es 1
-        navigate('/root-dashboard');  // Redirigimos a la página del usuario root
+      if (userId === 9) {  // Si el user_id es 9 (Kevin)
+        navigate('/root-dashboard');  // Redirigir a la página de root
       } else {
-        navigate('/dashboard');  // Redirigimos al dashboard normal
+        navigate('/dashboard');  // Redirigir al dashboard normal
       }
       
     } catch (err) {
