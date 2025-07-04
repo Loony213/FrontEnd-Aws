@@ -10,21 +10,14 @@ function RootLogin() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://52.1.37.215:8001/login', {
+      const res = await axios.post('http://52.1.37.215:8003/login', {
         email,
         password
       });
 
-      const userId = res.data.user_id;
-
-      // Verificamos si el user_id es el del usuario Root
-      if (userId === 9) { // Suponiendo que el ID de usuario root es 9
-        localStorage.setItem('token', res.data.token);
-        alert('Login Root exitoso');
-        navigate('/root-dashboard');
-      } else {
-        alert('No tienes permiso para acceder a esta página');
-      }
+      localStorage.setItem('token', res.data.token);
+      alert('Login exitoso');
+      navigate('/root-login');
     } catch (err) {
       alert('Login fallido');
     }
@@ -33,7 +26,7 @@ function RootLogin() {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2 className="login-title">Iniciar sesión - Usuario Root</h2>
+        <h2 className="login-title">Iniciar sesión - Usuario Root </h2>
 
         <input
           type="text"
@@ -52,9 +45,17 @@ function RootLogin() {
         <button onClick={handleLogin} className="login-button">
           Login
         </button>
+
+        <p className="login-footer">
+          ¿No tienes una cuenta?{' '}
+          <Link to="/register" className="login-link">
+            Regístrate aquí
+          </Link>
+          <br />
+        </p>
       </div>
     </div>
   );
 }
 
-export default RootLogin;
+export default Login;
