@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Chat from './pages/Chat';
 import Settings from './pages/Settings'; 
 import RootDashboard from './pages/RootDashboard';
+import RootLogin from './pages/RootLogin';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/root-dashboard" element={<RootDashboard />} />
+        <Route path="/root-login" element={<RootLogin />} />
       </Routes>
     </Router>
   );

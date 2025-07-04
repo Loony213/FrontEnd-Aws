@@ -51,6 +51,10 @@ function Login() {
           <Link to="/register" className="login-link">
             Regístrate aquí
           </Link>
+          <br />
+          <Link to="/root-login" className="login-link">
+            Eres usuario Root, da click aquí
+          </Link>
         </p>
       </div>
     </div>
