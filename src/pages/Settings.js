@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';  // Corregido import para jwt-decode
+import { jwtDecode } from 'jwt-decode';
 import './Settings.css';
 
 function Settings() {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   let email = '';
-  let userId = null;
 
-  // Verifica si el token existe y decodifica el contenido
   if (token) {
     try {
       const decoded = jwtDecode(token);
       email = decoded.email;
-      userId = decoded.user_id;  // Extraemos el user_id del token
     } catch (err) {
       console.error('Token inválido');
     }
@@ -83,7 +80,7 @@ function Settings() {
     const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción es irreversible.');
     if (confirmDelete) {
       try {
-        const res = await fetch(`http://54.145.79.10:4569/delete_user?email=${email}`, {
+        const res = await fetch(`http://54.145.79.10:4569/delete_user?email=${email}`, {  // Se agrega el parámetro 'email' a la URL
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -119,15 +116,6 @@ function Settings() {
       }
     } catch (err) {
       alert('Fallo en la solicitud para actualizar la descripción');
-    }
-  };
-
-  // Función para ingresar al modo root
-  const handleRootAccess = () => {
-    if (userId === 9) {
-      navigate('/root-dashboard');  // Redirigimos a la página de root
-    } else {
-      alert('No tienes permiso para acceder al modo root');
     }
   };
 
@@ -190,18 +178,6 @@ function Settings() {
         <button onClick={handleAccountDelete} className="delete-account-button">
           Eliminar mi cuenta
         </button>
-      </div>
-
-      {/* Botón para ingresar al modo root */}
-      <div className="form-section">
-        <h3>Modo Root</h3>
-        {userId === 9 ? (
-          <button onClick={handleRootAccess} className="root-access-button">
-            Ingresar al modo root
-          </button>
-        ) : (
-          <p>No tienes permiso para acceder al modo root</p>
-        )}
       </div>
 
       <button onClick={() => navigate('/dashboard')} className="back-button">
