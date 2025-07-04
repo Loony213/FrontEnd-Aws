@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import { Link, useNavigate } from 'react-router-dom';
+import './Login.css'; // Importamos el archivo CSS tradicional
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -10,29 +10,14 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      // Hacer login y obtener el token
       const res = await axios.post('http://52.1.37.215:8001/login', {
         email,
         password
       });
 
-      // Guardar el token en el almacenamiento local
-      const token = res.data.token;
-      localStorage.setItem('token', token);
-
-      // Decodificar el token JWT para obtener el user_id
-      const decoded = jwtDecode(token);
-      const userId = decoded.user_id;  // Obtenemos el user_id del token
-
+      localStorage.setItem('token', res.data.token);
       alert('Login exitoso');
-
-      // Redirigimos según el user_id
-      if (userId === 9) {  // Si el user_id es 9 (Kevin)
-        navigate('/root-dashboard');  // Redirigir a la página de root
-      } else {
-        navigate('/dashboard');  // Redirigir al dashboard normal
-      }
-      
+      navigate('/dashboard');
     } catch (err) {
       alert('Login fallido');
     }
@@ -41,7 +26,7 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h2 className="login-title">Iniciar sesión</h2>
+        <h2 className="login-title">Iniciar sesión </h2>
 
         <input
           type="text"
