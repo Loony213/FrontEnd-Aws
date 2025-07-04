@@ -37,37 +37,79 @@ function FriendProfile() {
       const dataDesc = await resDesc.json();
       setFriendDescription(dataDesc.description || 'Sin descripción');
 
-      // Obtener última conexión (puedes crear un micro nuevo si quieres separar este también)
+      // Obtener última conexión
       const resDate = await fetch(`http://54.145.79.10:4565/get-user-data?email=${selectedFriend}`);
       const dataDate = await resDate.json();
       setFriendLastSeen(dataDate.datee || 'Sin registro');
-
     } catch (err) {
       console.error('Error al obtener perfil:', err);
     }
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ padding: 20, textAlign: 'center' }}>
       <h2>Selecciona un amigo para ver su perfil</h2>
       <select
         value={selectedFriend}
         onChange={(e) => setSelectedFriend(e.target.value)}
+        style={{
+          padding: '8px 16px',
+          fontSize: '16px',
+          margin: '10px 0',
+          borderRadius: '4px',
+          border: '1px solid #ddd',
+        }}
       >
         <option value="">-- Seleccionar amigo --</option>
         {friendsList.map((friend, index) => (
-          <option key={index} value={friend}>{friend}</option>
+          <option key={index} value={friend}>
+            {friend}
+          </option>
         ))}
       </select>
-      <button onClick={handleViewProfile} style={{ marginLeft: 10 }}>
+      <button
+        onClick={handleViewProfile}
+        style={{
+          padding: '10px 20px',
+          fontSize: '16px',
+          marginLeft: '10px',
+          borderRadius: '4px',
+          backgroundColor: '#4CAF50',
+          color: '#fff',
+          border: 'none',
+          cursor: 'pointer',
+        }}
+      >
         Ver perfil
       </button>
 
       {(friendName || friendDescription || friendLastSeen) && (
-        <div style={{ marginTop: 20 }}>
-          <h3>Perfil de {friendName}</h3>
-          <p><strong>Descripción:</strong> {friendDescription}</p>
-          <p><strong>Última conexión:</strong> {friendLastSeen}</p>
+        <div style={{ marginTop: 20, textAlign: 'center' }}>
+          {/* Foto de perfil simulada */}
+          <div
+            style={{
+              width: 150,
+              height: 150,
+              borderRadius: '50%',
+              backgroundColor: '#ddd',
+              margin: '0 auto',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: '2rem',
+              color: '#fff',
+            }}
+          >
+            {friendName ? friendName.charAt(0).toUpperCase() : 'F'}
+          </div>
+
+          <h3 style={{ marginTop: '15px' }}>{friendName}</h3>
+          <p style={{ fontStyle: 'italic', color: '#555' }}>
+            <strong>Descripción:</strong> {friendDescription}
+          </p>
+          <p style={{ color: '#777' }}>
+            <strong>Última conexión:</strong> {friendLastSeen}
+          </p>
         </div>
       )}
     </div>
