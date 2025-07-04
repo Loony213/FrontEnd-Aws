@@ -7,8 +7,8 @@ function Logs() {
 
   const handleExecuteLogs = async () => {
     try {
-      // Aquí deberías hacer una llamada al backend para ejecutar el proceso de logs
-      const response = await fetch('http://54.145.79.10:4568/execute-logs', {  // Cambia la URL según tu backend
+      
+      const response = await fetch('http://54.160.226.229:5000/load_logs', {  
         method: 'POST',
       });
 
