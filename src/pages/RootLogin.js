@@ -17,7 +17,7 @@ function RootLogin() {
 
       localStorage.setItem('token', res.data.token);
       alert('Login exitoso');
-      navigate('/root-login');
+      navigate('/root-dashboard');
     } catch (err) {
       alert('Login fallido');
     }
