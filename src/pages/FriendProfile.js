@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 function FriendProfile() {
   const [friendsList, setFriendsList] = useState([]);
   const [selectedFriend, setSelectedFriend] = useState('');
-  const [friendData, setFriendData] = useState(null);
+  const [friendName, setFriendName] = useState('');
+  const [friendDescription, setFriendDescription] = useState('');
+  const [friendLastSeen, setFriendLastSeen] = useState('');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
@@ -21,13 +23,28 @@ function FriendProfile() {
       .catch((err) => console.error('Error al cargar amigos:', err));
   }, [token, navigate]);
 
-  const handleViewProfile = () => {
+  const handleViewProfile = async () => {
     if (!selectedFriend) return;
 
-    fetch(`http://54.145.79.10:4565/get-user-data?email=${selectedFriend}`)
-      .then((res) => res.json())
-      .then((data) => setFriendData(data))
-      .catch((err) => console.error('Error al obtener datos del amigo:', err));
+    try {
+      // Obtener nombre
+      const resName = await fetch(`http://13.216.187.212:5002/get-name?email=${selectedFriend}`);
+      const dataName = await resName.json();
+      setFriendName(dataName.name || 'Desconocido');
+
+      // Obtener descripción
+      const resDesc = await fetch(`http://13.216.187.212:5003/get-description?email=${selectedFriend}`);
+      const dataDesc = await resDesc.json();
+      setFriendDescription(dataDesc.description || 'Sin descripción');
+
+      // Obtener última conexión (puedes crear un micro nuevo si quieres separar este también)
+      const resDate = await fetch(`http://54.145.79.10:4565/get-user-data?email=${selectedFriend}`);
+      const dataDate = await resDate.json();
+      setFriendLastSeen(dataDate.datee || 'Sin registro');
+
+    } catch (err) {
+      console.error('Error al obtener perfil:', err);
+    }
   };
 
   return (
@@ -46,11 +63,11 @@ function FriendProfile() {
         Ver perfil
       </button>
 
-      {friendData && (
+      {(friendName || friendDescription || friendLastSeen) && (
         <div style={{ marginTop: 20 }}>
-          <h3>Perfil de {friendData.email}</h3>
-          <p><strong>Descripción:</strong> {friendData.description || 'Sin descripción'}</p>
-          <p><strong>Última conexión:</strong> {friendData.datee || 'Sin registro'}</p>
+          <h3>Perfil de {friendName}</h3>
+          <p><strong>Descripción:</strong> {friendDescription}</p>
+          <p><strong>Última conexión:</strong> {friendLastSeen}</p>
         </div>
       )}
     </div>
