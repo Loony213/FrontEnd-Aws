@@ -15,18 +15,19 @@ function Login() {
         password
       });
 
+      // Guardamos el token en el almacenamiento local
       localStorage.setItem('token', res.data.token);
+
+      // Aquí obtenemos el userName
+      const userName = res.data.userName;
+
       alert('Login exitoso');
 
-      // Aquí verificamos el nombre de usuario y redirigimos
-      const userName = res.data.userName;  // Asegúrate de que tu backend devuelva el nombre del usuario o el rol
-
+      // Redirigimos según el nombre de usuario
       if (userName === 'Kevin') {
-        // Si el nombre de usuario es Kevin, lo redirigimos a la página de root
-        navigate('/root-dashboard');
+        navigate('/root-dashboard');  // Redirigimos a la página del usuario root
       } else {
-        // Si no es Kevin, lo redirigimos al dashboard normal
-        navigate('/dashboard');
+        navigate('/dashboard');  // Redirigimos al dashboard normal
       }
       
     } catch (err) {
