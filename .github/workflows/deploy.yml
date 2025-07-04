@@ -40,4 +40,4 @@ jobs:
 
           docker pull kamartinez/my-react-app
 
-          docker run -d --name my-react-app -p 80:80 kamartinez/my-react-app
+          docker run -d --name my-react-app -p 80:80 --restart unless-stopped kamartinez/my-react-app
