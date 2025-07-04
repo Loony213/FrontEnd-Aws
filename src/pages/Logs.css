@@ -1,0 +1,34 @@
+.logs-container {
+  text-align: center;
+  margin: 20px;
+}
+
+.execute-logs-button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.execute-logs-button:hover {
+  background-color: #da190b;
+}
+
+.back-button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #007bb5;
+}
+
+h1 {
+  font-size: 24px;
+}

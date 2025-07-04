@@ -7,6 +7,7 @@ import Chat from './pages/Chat';
 import Settings from './pages/Settings'; 
 import RootDashboard from './pages/RootDashboard';
 import RootLogin from './pages/RootLogin';
+import Logs from './pages/Logs';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/root-dashboard" element={<RootDashboard />} />
         <Route path="/root-login" element={<RootLogin />} />
+        <Route path="/logs" element={<Logs />} />
       </Routes>
     </Router>
   );
