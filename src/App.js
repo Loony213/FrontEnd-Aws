@@ -8,6 +8,7 @@ import Settings from './pages/Settings';
 import RootDashboard from './pages/RootDashboard';
 import RootLogin from './pages/RootLogin';
 import Logs from './pages/Logs';
+import FriendProfile from './pages/FriendProfile';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/root-dashboard" element={<RootDashboard />} />
         <Route path="/root-login" element={<RootLogin />} />
         <Route path="/logs" element={<Logs />} />
+        <Route path="/friend-profile" element={<FriendProfile />} />
       </Routes>
     </Router>
   );

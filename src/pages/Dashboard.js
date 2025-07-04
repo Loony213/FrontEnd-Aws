@@ -170,6 +170,14 @@ function Dashboard() {
           )}
         </ul>
       </div>
+      
+      <div className="friend-profile-button-container">
+       <button onClick={() => navigate('/friend-profile')} className="form-button">
+       Ver perfil amigo
+       </button>
+      </div>
+
+      
 
       <div className="chat-button-container">
         <button onClick={() => navigate('/chat')} className="form-button">
