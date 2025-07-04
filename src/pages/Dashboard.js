@@ -12,6 +12,25 @@ function Dashboard() {
   const [friendsList, setFriendsList] = useState([]);
   const [profilePic, setProfilePic] = useState(null);
   const [description, setDescription] = useState(''); // Nuevo estado para la descripción
+  const [currentTime, setCurrentTime] = useState('');
+
+  // Función para obtener la hora actual desde el microservicio
+  const fetchCurrentTime = async () => {
+    try {
+      const res = await fetch('http://54.89.45.221:5001/current-time'); // Ajustar la URL si es diferente
+      const data = await res.json();
+      setCurrentTime(data.current_time);
+    } catch (error) {
+      console.error('Error al obtener la hora:', error);
+    }
+  };
+
+  // Usamos useEffect para actualizar la hora cada segundo
+  useEffect(() => {
+    fetchCurrentTime(); // Cargar la hora cuando se carga el componente
+    const interval = setInterval(fetchCurrentTime, 1000); // Actualizar cada segundo
+    return () => clearInterval(interval); // Limpiar intervalo al desmontar el componente
+  }, []);
 
   useEffect(() => {
     if (token) {
@@ -108,6 +127,11 @@ function Dashboard() {
       <div className="dashboard-header">
         <button onClick={goToSettings} className="header-button">Configuraciones</button>
         <button onClick={handleLogout} className="header-button">Cerrar sesión</button>
+      </div>
+
+      {/* Reloj digital */}
+      <div className="digital-clock">
+        {currentTime && <span>{currentTime}</span>}
       </div>
 
       <div className="dashboard-profile">
