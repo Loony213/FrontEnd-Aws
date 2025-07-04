@@ -16,15 +16,16 @@ function Login() {
       });
 
       // Guardamos el token en el almacenamiento local
-      localStorage.setItem('token', res.data.token);
+      const token = res.data.token;
+      localStorage.setItem('token', token);
 
-      // Aquí obtenemos el userName
-      const userName = res.data.userName;
+      // Obtenemos el user_id de la respuesta
+      const userId = res.data.user_id;  // El user_id es devuelto por el backend
 
       alert('Login exitoso');
 
-      // Redirigimos según el nombre de usuario
-      if (userName === 'Kevin') {
+      // Redirigimos según el user_id
+      if (userId === 1) {  // Asumiendo que el user_id de Kevin es 1
         navigate('/root-dashboard');  // Redirigimos a la página del usuario root
       } else {
         navigate('/dashboard');  // Redirigimos al dashboard normal
