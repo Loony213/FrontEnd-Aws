@@ -83,6 +83,23 @@ function FriendProfile() {
         Ver perfil
       </button>
 
+      {/* Botón de regreso */}
+      <button
+        onClick={() => navigate(-1)} // Volver a la página anterior
+        style={{
+          padding: '10px 20px',
+          fontSize: '16px',
+          marginTop: '20px',
+          borderRadius: '4px',
+          backgroundColor: '#f44336',
+          color: '#fff',
+          border: 'none',
+          cursor: 'pointer',
+        }}
+      >
+        Regresar
+      </button>
+
       {(friendName || friendDescription || friendLastSeen) && (
         <div style={{ marginTop: 20, textAlign: 'center' }}>
           {/* Foto de perfil simulada */}
