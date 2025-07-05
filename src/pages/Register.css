@@ -63,3 +63,22 @@
 .register-link:hover {
   text-decoration: underline;
 }
+
+.generate-password-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.generate-password-button:hover {
+  background-color: #45a049;
+}
+
+.generated-password {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
