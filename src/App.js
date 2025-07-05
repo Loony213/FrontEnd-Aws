@@ -9,6 +9,7 @@ import RootDashboard from './pages/RootDashboard';
 import RootLogin from './pages/RootLogin';
 import Logs from './pages/Logs';
 import FriendProfile from './pages/FriendProfile';
+import ChatBot from './pages/ChatBot';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/root-login" element={<RootLogin />} />
         <Route path="/logs" element={<Logs />} />
         <Route path="/friend-profile" element={<FriendProfile />} />
+        <Route path="/chat-bot" element={<ChatBot />} />
       </Routes>
     </Router>
   );

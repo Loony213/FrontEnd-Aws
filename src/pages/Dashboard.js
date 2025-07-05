@@ -11,7 +11,7 @@ function Dashboard() {
   const [friendEmail, setFriendEmail] = useState('');
   const [friendsList, setFriendsList] = useState([]);
   const [profilePic, setProfilePic] = useState(null);
-  const [description, setDescription] = useState(''); // Nuevo estado para la descripción
+  const [description, setDescription] = useState('');
   const [currentTime, setCurrentTime] = useState('');
 
   // Función para obtener la hora actual desde el microservicio
@@ -27,9 +27,9 @@ function Dashboard() {
 
   // Usamos useEffect para actualizar la hora cada segundo
   useEffect(() => {
-    fetchCurrentTime(); // Cargar la hora cuando se carga el componente
-    const interval = setInterval(fetchCurrentTime, 1000); // Actualizar cada segundo
-    return () => clearInterval(interval); // Limpiar intervalo al desmontar el componente
+    fetchCurrentTime();
+    const interval = setInterval(fetchCurrentTime, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -39,32 +39,27 @@ function Dashboard() {
         const userEmail = decoded.email;
         setEmail(userEmail);
 
-        // Cargar la frase de estado del usuario
         const storedPhrase = localStorage.getItem(`statusPhrase-${userEmail}`);
         if (storedPhrase) {
           setStatusPhrase(storedPhrase);
         }
 
-        // Cargar la foto de perfil del usuario
         const storedPic = localStorage.getItem(`profilePic-${userEmail}`);
         if (storedPic) {
           setProfilePic(storedPic);
         }
 
-        // Obtener la lista de amigos
         fetch(`http://44.193.181.80:8001/friends/${userEmail}`)
           .then((res) => res.json())
           .then((data) => setFriendsList(data))
           .catch((err) => console.error('Error al cargar amigos:', err));
 
-        // Obtener la descripción del usuario
         fetch(`http://54.145.79.10:4565/get-description?email=${userEmail}`)
           .then((res) => res.json())
           .then((data) => {
             setDescription(data.description || 'Sin descripción');
           })
           .catch((err) => console.error('Error al cargar descripción:', err));
-
       } catch (err) {
         console.error('Token inválido');
       }
@@ -129,7 +124,6 @@ function Dashboard() {
         <button onClick={handleLogout} className="header-button">Cerrar sesión</button>
       </div>
 
-      {/* Reloj digital */}
       <div className="digital-clock">
         {currentTime && <span>{currentTime}</span>}
       </div>
@@ -147,7 +141,6 @@ function Dashboard() {
         <p className="dashboard-email">{email}</p>
         <p className="status-phrase">{statusPhrase}</p>
 
-        {/* Mostrar la descripción del usuario */}
         <p className="user-description">{description}</p>
       </div>
 
@@ -170,18 +163,21 @@ function Dashboard() {
           )}
         </ul>
       </div>
-      
-      <div className="friend-profile-button-container">
-       <button onClick={() => navigate('/friend-profile')} className="form-button">
-       Ver perfil amigo
-       </button>
-      </div>
 
-      
+      <div className="friend-profile-button-container">
+        <button onClick={() => navigate('/friend-profile')} className="form-button">
+          Ver perfil amigo
+        </button>
+      </div>
 
       <div className="chat-button-container">
         <button onClick={() => navigate('/chat')} className="form-button">
           Comenzar a chatear
+        </button>
+
+        {/* Nuevo botón de Chatear con el Bot */}
+        <button onClick={() => navigate('/chat-bot')} className="form-button">
+          Chatear con el Bot
         </button>
       </div>
     </div>
