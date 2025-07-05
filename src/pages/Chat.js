@@ -23,7 +23,11 @@ function Chat() {
 
         fetch(`http://44.193.181.80:8001/friends/${userEmail}`)
           .then(res => res.json())
-          .then(data => setFriends(data))
+          .then(data => {
+            setFriends(data);
+            // Agregar el bot como un amigo más
+            setFriends(prevFriends => [...prevFriends, 'Chatbot']);
+          })
           .catch(err => console.error('Error al cargar amigos:', err));
       } catch (err) {
         console.error('Token inválido');
@@ -80,7 +84,6 @@ function Chat() {
     fetch(`http://34.231.95.89:8000/messages/${chat_id}`)
       .then(res => res.json())
       .then(data => {
-        // Verificar que la respuesta sea un array antes de hacer .map()
         if (Array.isArray(data)) {
           setConversations(prev => {
             const updated = { ...prev };
@@ -101,7 +104,11 @@ function Chat() {
   // Handle chat selection
   const handleSelectChat = (friend) => {
     setActiveChat(friend);
-    loadMessages(friend);
+    if (friend === 'Chatbot') {
+      loadMessages('Chatbot');
+    } else {
+      loadMessages(friend);
+    }
     setUnreadMessages(prev => {
       const updated = new Set(prev);
       updated.delete(friend);
@@ -119,26 +126,56 @@ function Chat() {
       timestamp: new Date().toISOString()
     };
 
-    socketRef.current.send(JSON.stringify(payload));
+    if (activeChat === 'Chatbot') {
+      // Enviar el mensaje al microservicio del bot
+      fetch('http://184.73.65.186:8080/ask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message })
+      })
+        .then(res => res.json())
+        .then(data => {
+          const botReply = data.botReply;
 
-    const time = new Date().toLocaleTimeString();
-    const outgoingMessage = { sender: `Tú → ${activeChat}`, message, time };
+          const time = new Date().toLocaleTimeString();
+          const outgoingMessage = { sender: `Tú → ${activeChat}`, message, time };
+          const botMessage = { sender: `Chatbot → Tú`, message: botReply, time };
 
-    setConversations(prev => {
-      const updated = { ...prev };
-      if (!updated[activeChat]) updated[activeChat] = [];
-      updated[activeChat].push(outgoingMessage);
-      return updated;
-    });
+          setConversations(prev => {
+            const updated = { ...prev };
+            if (!updated[activeChat]) updated[activeChat] = [];
+            updated[activeChat].push(outgoingMessage, botMessage);
+            return updated;
+          });
 
-    setMessage(''); // Limpiar el campo de mensaje
+          setMessage(''); // Limpiar el campo de mensaje
+        })
+        .catch(err => console.error('Error al enviar mensaje al bot:', err));
+    } else {
+      // Si no es el bot, seguir con WebSocket
+      socketRef.current.send(JSON.stringify(payload));
+
+      const time = new Date().toLocaleTimeString();
+      const outgoingMessage = { sender: `Tú → ${activeChat}`, message, time };
+
+      setConversations(prev => {
+        const updated = { ...prev };
+        if (!updated[activeChat]) updated[activeChat] = [];
+        updated[activeChat].push(outgoingMessage);
+        return updated;
+      });
+
+      setMessage(''); // Limpiar el campo de mensaje
+    }
   };
 
   return (
     <div className="chat-multi-container">
       <div className="sidebar">
         <h3>Conversaciones</h3>
-        {[...new Set([...friends, ...Object.keys(conversations)])].map((friend, idx) => (
+        {[...new Set([...friends, 'Chatbot', ...Object.keys(conversations)])].map((friend, idx) => (
           <button
             key={idx}
             className={`chat-tab ${friend === activeChat ? 'active' : ''}`}
