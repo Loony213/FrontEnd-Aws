@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import './Login.css'; // Importamos el archivo CSS tradicional
+import './Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [captcha, setCaptcha] = useState(null); // Estado para guardar la imagen del captcha
+  const [captchaText, setCaptchaText] = useState(''); // Estado para guardar el texto ingresado por el usuario
   const navigate = useNavigate();
+
+  // Función para obtener la imagen del captcha
+  useEffect(() => {
+    const fetchCaptcha = async () => {
+      try {
+        const response = await axios.get('http://52.5.241.128:5000/generate-captcha', { responseType: 'arraybuffer' });
+        const base64Image = Buffer.from(response.data, 'binary').toString('base64');
+        setCaptcha(`data:image/png;base64,${base64Image}`);
+      } catch (err) {
+        console.error('Error al cargar el captcha:', err);
+      }
+    };
+
+    fetchCaptcha(); // Llamar a la función al montar el componente
+  }, []);
 
   const handleLogin = async () => {
     try {
       const res = await axios.post('http://52.1.37.215:8001/login', {
         email,
-        password
+        password,
+        captcha: captchaText // Incluir el captcha ingresado por el usuario
       });
 
       localStorage.setItem('token', res.data.token);
@@ -41,6 +59,19 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           className="login-input"
         />
+
+        {/* Mostrar el captcha */}
+        {captcha && (
+          <div>
+            <img src={captcha} alt="captcha" />
+            <input
+              type="text"
+              placeholder="Ingresa el captcha"
+              onChange={(e) => setCaptchaText(e.target.value)}
+              className="login-input"
+            />
+          </div>
+        )}
 
         <button onClick={handleLogin} className="login-button">
           Login
