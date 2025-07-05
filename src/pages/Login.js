@@ -14,9 +14,11 @@ function Login() {
   useEffect(() => {
     const fetchCaptcha = async () => {
       try {
-        const response = await axios.get('http://52.5.241.128:5000/generate-captcha', { responseType: 'arraybuffer' });
-        const base64Image = Buffer.from(response.data, 'binary').toString('base64');
-        setCaptcha(`data:image/png;base64,${base64Image}`);
+        const response = await axios.get('http://52.5.241.128:5000/generate-captcha', { responseType: 'blob' });
+        
+        // Crear una URL del objeto blob
+        const imageUrl = URL.createObjectURL(response.data);
+        setCaptcha(imageUrl);
       } catch (err) {
         console.error('Error al cargar el captcha:', err);
       }
