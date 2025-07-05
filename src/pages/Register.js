@@ -11,7 +11,7 @@ function Register() {
   // Función para obtener una contraseña generada del microservicio
   const generatePassword = async () => {
     try {
-      const res = await axios.get('http://52.1.37.215:8004/generate-password');
+      const res = await axios.get('http://52.5.241.128:8002/generate-password');
       setGeneratedPassword(res.data.password); // Guardamos la contraseña generada
       setPassword(res.data.password); // Auto-llena el campo de contraseña
     } catch (err) {
