@@ -13,6 +13,7 @@ function Dashboard() {
   const [profilePic, setProfilePic] = useState(null);
   const [description, setDescription] = useState('');
   const [currentTime, setCurrentTime] = useState('');
+  const [motivationalPhrase, setMotivationalPhrase] = useState('');  // Nuevo estado para la frase motivacional
 
   // Función para obtener la hora actual desde el microservicio
   const fetchCurrentTime = async () => {
@@ -25,9 +26,21 @@ function Dashboard() {
     }
   };
 
-  // Usamos useEffect para actualizar la hora cada segundo
+  // Función para obtener una frase motivacional desde el microservicio
+  const fetchMotivationalPhrase = async () => {
+    try {
+      const res = await fetch('http://54.197.244.91/get-phrase'); // Ajustar la URL si es diferente
+      const data = await res.json();
+      setMotivationalPhrase(data.phrase);
+    } catch (error) {
+      console.error('Error al obtener la frase motivacional:', error);
+    }
+  };
+
+  // Usamos useEffect para actualizar la hora y la frase cada vez que el componente se monta
   useEffect(() => {
     fetchCurrentTime();
+    fetchMotivationalPhrase(); // Llamar para obtener la frase motivacional al montar
     const interval = setInterval(fetchCurrentTime, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -126,6 +139,15 @@ function Dashboard() {
 
       <div className="digital-clock">
         {currentTime && <span>{currentTime}</span>}
+      </div>
+
+      {/* Sección para mostrar la frase motivacional */}
+      <div className="motivational-phrase-container">
+        {motivationalPhrase && (
+          <div className="motivational-phrase-box">
+            <p className="motivational-phrase-text">{motivationalPhrase}</p>
+          </div>
+        )}
       </div>
 
       <div className="dashboard-profile">
