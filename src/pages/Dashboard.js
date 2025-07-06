@@ -67,7 +67,7 @@ function Dashboard() {
           .then((data) => setFriendsList(data))
           .catch((err) => console.error('Error al cargar amigos:', err));
 
-        fetch(`http://54.145.79.10:4565/get-description?email=${userEmail}`)
+        fetch(`http://50.17.170.185:4565/get-description?email=${userEmail}`)
           .then((res) => res.json())
           .then((data) => {
             setDescription(data.description || 'Sin descripción');

@@ -26,7 +26,7 @@ function Settings() {
   // Función para cambiar el email
   const handleEmailChange = async () => {
     try {
-      const res = await fetch('http://54.145.79.10:4568/change-email', {
+      const res = await fetch('http://50.17.170.185/api/changeuser', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ oldEmail: email, newEmail })
@@ -44,10 +44,9 @@ function Settings() {
     }
   };
 
-  // Función para cambiar la contraseña
   const handlePasswordChange = async () => {
     try {
-      const res = await fetch('http://54.145.79.10:4567/change-password', {
+      const res = await fetch('http://50.17.170.185/api/changepass', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, oldPassword, newPassword })
@@ -65,7 +64,7 @@ function Settings() {
     }
   };
 
-  // Función para actualizar la frase de estado
+  
   const handlePhraseUpdate = () => {
     if (email && phrase.trim()) {
       localStorage.setItem(`statusPhrase-${email}`, phrase.trim());
@@ -75,12 +74,12 @@ function Settings() {
     }
   };
 
-  // Función para eliminar la cuenta
+ 
   const handleAccountDelete = async () => {
     const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción es irreversible.');
     if (confirmDelete) {
       try {
-        const res = await fetch(`http://54.145.79.10:4569/delete_user?email=${email}`, {  // Se agrega el parámetro 'email' a la URL
+        const res = await fetch(`http://50.17.170.185:4569/delete_user?email=${email}`, {  // Se agrega el parámetro 'email' a la URL
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -103,7 +102,7 @@ function Settings() {
   // Función para actualizar la descripción
   const handleDescriptionUpdate = async () => {
     try {
-      const res = await fetch('http://54.145.79.10:4566/update-description', {
+      const res = await fetch('http://50.17.170.185/api/updatedescription', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, description })
