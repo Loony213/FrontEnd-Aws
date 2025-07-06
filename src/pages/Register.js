@@ -21,7 +21,7 @@ function Register() {
 
   const handleRegister = async () => {
     try {
-      const res = await axios.post('http://52.1.37.215:8002/register', {
+      const res = await axios.post('http://52.1.37.215/register', {
         email,
         password
       });
