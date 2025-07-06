@@ -62,7 +62,7 @@ function Dashboard() {
           setProfilePic(storedPic);
         }
 
-        fetch(`http://13.219.27.66/api/getfriends/${userEmail}`)
+        fetch(`http://13.219.27.66:8001/friends/${userEmail}`)
           .then((res) => res.json())
           .then((data) => setFriendsList(data))
           .catch((err) => console.error('Error al cargar amigos:', err));
@@ -91,7 +91,7 @@ function Dashboard() {
   const handleAddFriend = async () => {
     if (!friendEmail.trim()) return;
     try {
-      const res = await fetch('http://44.193.181.80:8000/add-friend', {
+      const res = await fetch('http://13.219.27.66/api/addfriend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_email: email, friend_email: friendEmail })
