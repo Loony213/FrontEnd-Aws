@@ -21,7 +21,7 @@ function Chat() {
         const userEmail = decoded.email;
         setEmail(userEmail);
 
-        fetch(`http://44.193.181.80:8001/friends/${userEmail}`)
+        fetch(`http://13.219.27.66:8001/friends/${userEmail}`)
           .then(res => res.json())
           .then(data => setFriends(data))
           .catch(err => console.error('Error al cargar amigos:', err));
@@ -36,7 +36,7 @@ function Chat() {
     if (!email) return;
 
     const connectWebSocket = () => {
-      socketRef.current = new WebSocket(`ws://34.231.95.89:8000/ws/${email}`);
+      socketRef.current = new WebSocket(`ws://98.84.0.194:8000/ws/${email}`);
 
       socketRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data); // { sender, message }
@@ -77,7 +77,7 @@ function Chat() {
   const loadMessages = (friend) => {
     const chat_id = email < friend ? `${email}_${friend}` : `${friend}_${email}`;
     
-    fetch(`http://34.231.95.89:8000/messages/${chat_id}`)
+    fetch(`http://98.84.0.194:8000/messages/${chat_id}`)
       .then(res => res.json())
       .then(data => {
         // Verificar que la respuesta sea un array antes de hacer .map()
