@@ -18,7 +18,7 @@ function Dashboard() {
   // Función para obtener la hora actual desde el microservicio
   const fetchCurrentTime = async () => {
     try {
-      const res = await fetch('http://54.89.45.221:5001/current-time'); // Ajustar la URL si es diferente
+      const res = await fetch('http://54.236.236.86/api/time'); // Ajustar la URL si es diferente
       const data = await res.json();
       setCurrentTime(data.current_time);
     } catch (error) {
@@ -29,7 +29,7 @@ function Dashboard() {
   // Función para obtener una frase motivacional desde el microservicio
   const fetchMotivationalPhrase = async () => {
     try {
-      const res = await fetch('http://54.197.244.91/get-phrase'); // Ajustar la URL si es diferente
+      const res = await fetch('http://54.145.196.198/get-phrase'); // Ajustar la URL si es diferente
       const data = await res.json();
       setMotivationalPhrase(data.phrase);
     } catch (error) {

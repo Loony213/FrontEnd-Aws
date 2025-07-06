@@ -8,7 +8,7 @@ function Logs() {
   const handleExecuteLogs = async () => {
     try {
       
-      const response = await fetch('http://54.89.45.221:5000/load_logs', {  
+      const response = await fetch('http://54.236.236.86/api/loadlogs', {  
         method: 'POST',
       });
 
