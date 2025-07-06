@@ -17,7 +17,7 @@ function FriendProfile() {
     const userEmail = decoded.email;
 
     // Obtener lista de amigos
-    fetch(`http://44.193.181.80:8001/friends/${userEmail}`)
+    fetch(`http://13.219.27.66:8001/friends/${userEmail}`)
       .then((res) => res.json())
       .then((data) => setFriendsList(data))
       .catch((err) => console.error('Error al cargar amigos:', err));
@@ -28,12 +28,12 @@ function FriendProfile() {
 
     try {
       // Obtener nombre
-      const resName = await fetch(`http://13.216.187.212:5002/get-name?email=${selectedFriend}`);
+      const resName = await fetch(`http://35.171.11.191:5002/get-name?email=${selectedFriend}`);
       const dataName = await resName.json();
       setFriendName(dataName.name || 'Desconocido');
 
       // Obtener descripción
-      const resDesc = await fetch(`http://13.216.187.212:5003/get-description?email=${selectedFriend}`);
+      const resDesc = await fetch(`http://35.171.11.191:5003/get-description?email=${selectedFriend}`);
       const dataDesc = await resDesc.json();
       setFriendDescription(dataDesc.description || 'Sin descripción');
 

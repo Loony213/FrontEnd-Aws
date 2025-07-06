@@ -20,7 +20,7 @@ const ChatBot = () => {
 
     // Hacer la solicitud al servidor
     try {
-      const response = await fetch("http://184.73.65.186:8080/ask", {
+      const response = await fetch("http://52.22.200.93:8080/ask", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
