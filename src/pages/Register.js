@@ -21,7 +21,7 @@ function Register() {
 
   const handleRegister = async () => {
     try {
-      const res = await axios.post('http://52.1.37.215/register', {
+      const res = await axios.post('http://54.85.217.202/api/register', {
         email,
         password
       });
