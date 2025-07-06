@@ -1,0 +1,23 @@
+.root-dashboard-container {
+  text-align: center;
+  margin: 20px;
+}
+
+.logout-button,
+.logs-button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-button:hover,
+.logs-button:hover {
+  background-color: #45a049;
+}
+
+h1 {
+  font-size: 24px;
+}
