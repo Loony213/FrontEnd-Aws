@@ -4,21 +4,21 @@ const ChatBot = () => {
   const [userMessage, setUserMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
   
-  // Función para enviar el mensaje al servidor
+  
   const sendMessage = async () => {
     if (userMessage.trim() === "") {
       alert("Por favor, ingresa un mensaje.");
       return;
     }
 
-    // Mostrar el mensaje del usuario en la interfaz
+    
     const newMessages = [...chatMessages, { sender: 'Tú', message: userMessage }];
     setChatMessages(newMessages);
     
-    // Limpiar el campo de entrada
+    
     setUserMessage('');
 
-    // Hacer la solicitud al servidor
+    
     try {
       const response = await fetch("http://52.22.200.93:8080/ask", {
         method: "POST",
@@ -32,7 +32,7 @@ const ChatBot = () => {
         const data = await response.json();
         const botReply = data.botReply;
 
-        // Mostrar la respuesta del bot
+        
         setChatMessages([
           ...newMessages,
           { sender: 'Bot', message: botReply }
