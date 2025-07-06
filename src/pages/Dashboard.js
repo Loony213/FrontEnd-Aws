@@ -62,7 +62,7 @@ function Dashboard() {
           setProfilePic(storedPic);
         }
 
-        fetch(`http://44.193.181.80:8001/friends/${userEmail}`)
+        fetch(`http://13.219.27.66/api/getfriends/${userEmail}`)
           .then((res) => res.json())
           .then((data) => setFriendsList(data))
           .catch((err) => console.error('Error al cargar amigos:', err));
