@@ -42,7 +42,7 @@ function Register() {
 
         <input
           type="text"
-          placeholder="Correo"
+          placeholder="Usuario"
           onChange={(e) => setEmail(e.target.value)}
           className="register-input"
         />
