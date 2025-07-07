@@ -124,13 +124,13 @@ function Settings() {
 
       {/* Sección para cambiar email */}
       <div className="form-section">
-        <h3>Cambiar email</h3>
+        <h3>Cambiar nombre de usuario</h3>
         <input
           type="email"
           placeholder="Nuevo correo"
           onChange={(e) => setNewEmail(e.target.value)}
         />
-        <button onClick={handleEmailChange}>Actualizar Email</button>
+        <button onClick={handleEmailChange}>Actualizar Usuario</button>
       </div>
 
       {/* Sección para cambiar contraseña */}
